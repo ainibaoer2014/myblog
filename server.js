@@ -3,6 +3,8 @@ let path=require('path');
 let bodyParser=require('body-parser');
 //会话中间件
 let session=require('express-session');
+//消息提示中间件
+let flash=require('connect-flash');
 let app=express();
 //设置模板引擎为html
 app.set('view engine','html');
@@ -18,6 +20,8 @@ app.use(session({
     secret:'zfpx',//用来加密cookie的，防止cookie被客户端篡改
     saveUninitialized:true//保存未初始化的session
 }));
+//切记：此中间件要放在session的后面，因为它要依赖session  使用了flash中间件会多一个req.flash(type,msg) 两个参数赋值   req.flash(type) 一个参数取值
+app.use(flash());
 //解析客户端提交过来的请求体 并转成对象赋值给req.body
 app.use(bodyParser.urlencoded({extended:true}));
 let index=require('./routes/index.js');
@@ -26,6 +30,8 @@ let article=require('./routes/article.js');
 app.use(function (req,res,next) {
     //真正渲染的是res.locals  放公共模板都需要的变量
     res.locals.user=req.session.user;
+    res.locals.success=req.flash('success').toString();
+    res.locals.error=req.flash('error').toString();
     next();
 });
 /*
