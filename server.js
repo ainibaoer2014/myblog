@@ -15,9 +15,14 @@ app.engine('html',require('ejs').__express);
 //配置静态文件中间件会拦截到客户端对于静态文件的请求，如bootstrap.css，然后会在当前目录的node_modules目录下找该文件，如果能找到则返回客户端并结束请求
 app.use(express.static(path.resolve('node_modules')));
 //在使用了该会话中间件后，会在对象上增加req.session属性，它也是一个对象
+//将public作为静态文件的根目录
+app.use(express.static(path.resolve('public')));
 app.use(session({
     resave:true,//每次客户端请求到服务器都会保存session
     secret:'zfpx',//用来加密cookie的，防止cookie被客户端篡改
+    cookie:{
+        maxAge:3600*1000,//指定cookie的过期时间
+    },
     saveUninitialized:true//保存未初始化的session
 }));
 //切记：此中间件要放在session的后面，因为它要依赖session  使用了flash中间件会多一个req.flash(type,msg) 两个参数赋值   req.flash(type) 一个参数取值

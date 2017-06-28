@@ -22,6 +22,16 @@
                 <li><a href="/user/signin">登录</a></li>
                 <%}%>
             </ul>
+            <%if(user){%>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="">
+                        <img src="<%=user.avatar%>" alt="">
+                        <%=user.username%>
+                    </a>
+                </li>
+            </ul>
+            <%}%>
         </div>
     </div>
 </nav>

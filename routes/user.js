@@ -3,6 +3,10 @@ let express=require('express');
 let {User}=require('../model');
 let {checkLogin,checkNotLogin}=require('../auth');
 let router=express.Router();
+//上传文件/图片时 使用的中间件
+let multer=require('multer');
+//上传文件/图像的存放路径
+let uploads=multer({dest:'./public/uploads'});
 /*
 * 实现用户注册:
 * 1.绘制注册页面的模板(username password email)
@@ -14,8 +18,13 @@ let router=express.Router();
 router.get('/signup',checkNotLogin,function (req,res) {
     res.render('user/signup',{title:"注册"});
 });
-router.post('/signup',checkNotLogin,function (req,res) {
+//当表单里只有一个上传字段时，使用single('avatar')  avatar是上传表单控件的name属性的值
+//当使用uploads.single('avatar)后，多两个属性  req.file req.body
+router.post('/signup',checkNotLogin,uploads.single('avatar'),function (req,res) {
+    // console.log(req.file);
+    // console.log(req.body);
     let user=req.body;//请求体对象的三个属性(username,password,email)
+    user.avatar=`/uploads/${req.file.filename}`;
     //将提交的用户数据存在数据库中
     User.create(user,function (err,doc) {
         if(err){//表示注册失败
@@ -62,3 +71,23 @@ router.get('/signout',checkLogin,function (req,res) {
    res.redirect('/user/signin');
 });
 module.exports=router;
+
+/*
+分析：使用了multer中间件 并指定了上传文件的存放路径 当用户上传一个文件时 uploads.single('avatar') 多出的两个对象
+      req.file  req.body  打印出来的这两个对象中的内容的分析
+*
+* req.file 对象
+{ fieldname: 'avatar', //上传文件的表单控件中name属性的属性值
+ originalname: '1.jpg',//上传的文件名
+ encoding: '7bit',
+ mimetype: 'image/jpeg',//上传文件的MIME类型
+ destination: './public/uploads',//在服务器上保存的文件目录
+ filename: '26597143b61d074f1d90e415e7e47887',//在服务器上保存的文件名  Buffer类型
+ path: 'public\\uploads\\26597143b61d074f1d90e415e7e47887',//服务器上保存的文件的路径
+ size: 68259 }//文件的大小
+*
+* req.body对象
+ { username: 'jaylina',
+ password: '888',
+ email: '756367019@qq.com' }
+* */
