@@ -5,6 +5,7 @@ let bodyParser=require('body-parser');
 let session=require('express-session');
 //消息提示中间件
 let flash=require('connect-flash');
+let MongoStore=require('connect-mongo')(session);
 let app=express();
 //设置模板引擎为html
 app.set('view engine','html');
@@ -23,7 +24,12 @@ app.use(session({
     cookie:{
         maxAge:3600*1000,//指定cookie的过期时间
     },
-    saveUninitialized:true//保存未初始化的session
+    saveUninitialized:true,//保存未初始化的session
+    store:new MongoStore({
+        //将数据库的链接地址 放在config配置文件中
+        //好处：当要修改数据库的链接地址时，只需修改config.js中的链接地址
+        url:require('./config').dbUrl
+    })//将数据放在数据库中，即使重启服务器，登录状态，还存在
 }));
 //切记：此中间件要放在session的后面，因为它要依赖session  使用了flash中间件会多一个req.flash(type,msg) 两个参数赋值   req.flash(type) 一个参数取值
 app.use(flash());
@@ -35,6 +41,7 @@ let article=require('./routes/article.js');
 app.use(function (req,res,next) {
     //真正渲染的是res.locals  放公共模板都需要的变量
     res.locals.user=req.session.user;
+    res.locals.keyword='';
     res.locals.success=req.flash('success').toString();
     res.locals.error=req.flash('error').toString();
     next();

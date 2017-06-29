@@ -3,7 +3,9 @@ mongoose.Promise=Promise;
 //当使用用户表中的用户ID时，定义变量objectId
 let ObjectId=mongoose.Schema.Types.ObjectId;
 //连接数据库  提前不用创建  会自动创建
-let db=mongoose.connect("mongodb://127.0.0.1:27017/myblog");
+//将数据库的链接地址 放在config配置文件中
+//好处：当要修改数据库的链接地址时，只需修改config.js中的链接地址
+let db=mongoose.connect(require('../config').dbUrl);
 //定义用户集合的结构骨架  规定了用户集合中的文档的属性和类型
 let UserSchema=new mongoose.Schema({
     username:String,
