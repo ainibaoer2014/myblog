@@ -59,7 +59,7 @@ app.engine('html',require('ejs').__express);
 >- 3.在user路由中引入multer中间件，并在注册请求中用此中间件解析请求体得到 req.file req.body
 >- 4.拼出avatar图片路径并赋值给req.body对象
 >- 5.在User模型中添加avatar属性
->10. 新增/发表文章
+>10. 新增发表文章
 >11. 查看文章详情  
 >12. 删除文章
 >13. 修改文章
