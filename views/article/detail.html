@@ -1,0 +1,17 @@
+<% include ../include/header.html%>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <%=article.title%>
+    </div>
+    <div class="panel-body">
+        <%=article.content%>
+    </div>
+    <!--只有当文章的作者id与登录的人的id一样才有权限删除自己的文章-->
+    <%if(user && article.user==user._id){%>
+    <div class="panel-footer">
+        <a href="" class="btn btn-warning">编辑</a>
+        <a href="/article/delete/<%=article._id%>" class="btn btn-danger">删除</a>
+    </div>
+    <%}%>
+</div>
+<% include ../include/footer.html%>

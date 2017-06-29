@@ -1,4 +1,5 @@
 let mongoose=require('mongoose');
+mongoose.Promise=Promise;
 //当使用用户表中的用户ID时，定义变量objectId
 let ObjectId=mongoose.Schema.Types.ObjectId;
 //连接数据库  提前不用创建  会自动创建
