@@ -54,7 +54,12 @@ app.engine('html',require('ejs').__express);
 > 7. 增加判断登录状态的中间件
 > 8. 成功和失败时的消息提示
 > 9. 实现上传头像并在导航右上角显示头像和姓名
->10. 发表文章
+>- 1.在注册表单增加一个头像的字段
+>- 2.给表单增加一个属性 enctype="multipart/form-data"
+>- 3.在user路由中引入multer中间件，并在注册请求中用此中间件解析请求体得到 req.file req.body
+>- 4.拼出avatar图片路径并赋值给req.body对象
+>- 5.在User模型中添加avatar属性
+>10. 新增/发表文章
 >11. 查看文章详情  
 >12. 删除文章
 >13. 修改文章
