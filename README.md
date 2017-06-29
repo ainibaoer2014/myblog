@@ -60,7 +60,6 @@ app.engine('html',require('ejs').__express);
 >- 4.拼出avatar图片路径并赋值给req.body对象
 >- 5.在User模型中添加avatar属性
 >10. 新增发表文章
-> - 首页显示文章列表
 >11. 首页显示文章列表
 >12. 编写文章详情页
 >13. 删除文章
