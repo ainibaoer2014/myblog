@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title><%=title%></title>
     <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+    <style>
+        img{
+            width: 30px;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+            border-radius:50%;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -22,11 +30,17 @@
                 <li><a href="/user/signin">登录</a></li>
                 <%}%>
             </ul>
+            <form action="/" role="search" class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="keyword" placeholder="请输入关键字" value="<%=keyword%>">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
             <%if(user){%>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="">
-                        <img src="<%=user.avatar%>" alt="" width="30px">
+                        <img src="<%=user.avatar%>" alt="<%=user.username%>">
                         <%=user.username%>
                     </a>
                 </li>
